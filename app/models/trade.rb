@@ -2,6 +2,7 @@ class Trade < ApplicationRecord
 
   validates_inclusion_of :shares, :in => 0..100
   validates_inclusion_of :trade_type, :in => %w[buy sell]
+  validates :trade_type, :user_id, :symbol, :shares, :price, :timestamp, presence: true
 
   scope :by_user_id, lambda { |q|
     where(user_id: q) if q.present?

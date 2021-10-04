@@ -19,8 +19,6 @@ ActiveRecord::Schema.define(version: 2021_10_04_025630) do
     t.integer "shares"
     t.integer "price"
     t.integer "timestamp"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
 end

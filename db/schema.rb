@@ -10,6 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2021_10_04_025630) do
+
+  create_table "trades", force: :cascade do |t|
+    t.string "trade_type"
+    t.integer "user_id"
+    t.string "symbol"
+    t.integer "shares"
+    t.integer "price"
+    t.integer "timestamp"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
 end

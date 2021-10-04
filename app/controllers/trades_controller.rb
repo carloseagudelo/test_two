@@ -1,11 +1,10 @@
-class CampaignsController < ApplicationController
-
-  respond_to :json
+class TradesController < ApplicationController
 
   def index
     @trades = Trade
-                .by_user_id(params[:user_id])
-                .by_trade_type(params[:trade_type])
+                &.by_user_id(params[:user_id])
+                &.by_trade_type(params[:trade_type])
+                &.order(:id)
     render json: @trades, status: :ok
   end
 
@@ -14,32 +13,33 @@ class CampaignsController < ApplicationController
     if @trade.save
       render json: @trade, status: :ok
     else
-      render json: @trade, status: :bad_request
+      render json: { status: 400 }, status: :bad_request
     end
   end
 
   def show
-    @trades = Trade.find(params[:id])
-    if @trades.prenset?
-      render json: @trade, status: :ok
+    @trades = Trade.where(id: params[:id])
+    if @trades.present?
+      render json: @trades.first, status: :ok
     else
-      render json: [], status: :not_found
+      render status: :not_found
     end
   end
 
   def update
-    render status: :method_not_allowed
+    render json: { status: 405 }, status: :method_not_allowed
   end
   
   def delete
-    render status: :method_not_allowed
+    render json: { status: 405 }, status: :method_not_allowed
   end
 
   private
 
   def trade_params
     params.require(:trade)
-      .permit(:id, :trade_type, :user_id, :symbol, :shares, :price, :timestamp)
+      .permit(:id, :trade_type, :user_id, :symbol, :shares, :price, :timestamp,
+      :created_at, :updated_at)
   end
 
 end
